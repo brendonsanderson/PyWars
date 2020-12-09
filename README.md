@@ -1,7 +1,7 @@
 # PyWars
 A python Advance Wars clone
 
-#Prereqs:
+# Prereqs:
  - Python 3.7.7 or higher reccomended (or just anything Python 3 onwards)
  - Pygame 2
 
