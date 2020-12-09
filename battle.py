@@ -4,6 +4,7 @@
 
 # Based on Advance Wars (Intelligent Systems, Nintendo)
 
+from __future__ import absolute_import
 import copy
 import random
 import pygame
@@ -11,6 +12,7 @@ from pygame.locals import *
 from pygameBaseClass import PygameBaseClass
 from map import *
 from units import *
+from six.moves import range
 
 class Team(object):
     colors = ["Red", "Blue", "Green", "Yellow"]
@@ -58,7 +60,7 @@ class Battle(PygameBaseClass):
         if len(unitString) == 0: return []
         units = []
         unitIdentifiers = unitString.splitlines()
-        for i in xrange(len(unitIdentifiers)):
+        for i in range(len(unitIdentifiers)):
             thisUnitStr = unitIdentifiers[i]
             thisUnitList = thisUnitStr.split()
             team = int(thisUnitList[0])
@@ -111,14 +113,14 @@ class Battle(PygameBaseClass):
     def getUnitSpace(self):
         """Create an empty 2D list the size of the map"""
         contents = []
-        for row in xrange(self.rows):
+        for row in range(self.rows):
             contents += [[None] * self.cols]
         return contents
 
     def getHQCoords(self, teamNum):
         map = self.map.map
-        for row in xrange(self.rows):
-            for col in xrange(self.cols):
+        for row in range(self.rows):
+            for col in range(self.cols):
                 tile = map[row][col]
                 if (isinstance(tile, Objective) and
                     tile.typeNum == 0 and
@@ -152,7 +154,7 @@ class Battle(PygameBaseClass):
         """Create the appropriate number of teams, each with the initial
         amount of funds"""
         teams = []
-        for teamNumber in xrange(self.numPlayers):
+        for teamNumber in range(self.numPlayers):
             hqCoords = self.getHQCoords(teamNumber)
             camRect = self.getCamRect(hqCoords)
             teams.append(Team(teamNumber, self.initialFunds, hqCoords, camRect))
@@ -212,8 +214,8 @@ class Battle(PygameBaseClass):
         """Add each objective to the heldObjectives list of the team that
         holds it"""
         map = self.map
-        for row in xrange(map.rows):
-            for col in xrange(map.cols):
+        for row in range(map.rows):
+            for col in range(map.cols):
                 tile = self.map.map[row][col]
                 if isinstance(tile, Objective) and tile.teamNum != 4:
                     holdingTeam = self.teams[tile.teamNum]
@@ -387,8 +389,8 @@ class Battle(PygameBaseClass):
         maxDistance = unit.artilleryMaxRange
         minDistance = unit.artilleryMinRange
         cRow, cCol = coords
-        for row in xrange(cRow - maxDistance, cRow + maxDistance + 1):
-            for col in xrange(cCol - maxDistance, cCol + maxDistance + 1):
+        for row in range(cRow - maxDistance, cRow + maxDistance + 1):
+            for col in range(cCol - maxDistance, cCol + maxDistance + 1):
                 taxicabDistance = abs(row - cRow) + abs(col - cCol)
                 if ((0 <= row < self.rows) and (0 <= col < self.cols) and
                     self.isBlocked((row, col)) and
@@ -488,8 +490,8 @@ class Battle(PygameBaseClass):
         self.clearMovementRange()
 
     def restoreObjectives(self):
-        for row in xrange(self.rows):
-            for col in xrange(self.cols):
+        for row in range(self.rows):
+            for col in range(self.cols):
                 unit = self.unitSpace[row][col]
                 objective = self.map.map[row][col]
                 if (isinstance(objective, Objective) and
@@ -497,8 +499,8 @@ class Battle(PygameBaseClass):
                     objective.health = Objective.baseHealth
 
     def restoreUnitHealth(self):
-        for row in xrange(self.rows):
-            for col in xrange(self.cols):
+        for row in range(self.rows):
+            for col in range(self.cols):
                 unit = self.unitSpace[row][col]
                 objective = self.map.map[row][col]
                 if ((unit != None) and isinstance(objective, Objective) and
@@ -551,8 +553,8 @@ class Battle(PygameBaseClass):
 
     def removeTeam(self, teamNum):
         self.eliminatedPlayers.add(teamNum)
-        for row in xrange(self.rows):
-            for col in xrange(self.cols):
+        for row in range(self.rows):
+            for col in range(self.cols):
                 unit = self.unitSpace[row][col]
                 tile = self.map.map[row][col]
                 if unit != None and unit.teamNum == teamNum:
@@ -607,8 +609,8 @@ class Battle(PygameBaseClass):
         unit = self.unitSpace[cRow][cCol]
         maxDistance = unit.artilleryMaxRange
         minDistance = unit.artilleryMinRange
-        for row in xrange(cRow - maxDistance, cRow + maxDistance + 1):
-            for col in xrange(cCol - maxDistance, cCol + maxDistance + 1):
+        for row in range(cRow - maxDistance, cRow + maxDistance + 1):
+            for col in range(cCol - maxDistance, cCol + maxDistance + 1):
                 taxicabDistance = abs(row - cRow) + abs(col - cCol)
                 if ((0 <= row < self.rows) and (0 <= col < self.cols) and
                     self.isBlocked((row, col)) and
@@ -782,8 +784,8 @@ class Battle(PygameBaseClass):
 
     def drawAllUnits(self):
         """Draw all the units in the unit space"""
-        for row in xrange(self.rows):
-            for col in xrange(self.cols):
+        for row in range(self.rows):
+            for col in range(self.cols):
                 unit = self.unitSpace[row][col]
                 if unit != None:
                     self.redrawMapTile((row,col))
@@ -916,21 +918,24 @@ class Battle(PygameBaseClass):
         wait = waitFont.render(waitText, 1, (0, 0, 0))
         self.display.blit(wait, coords)
 
-    def drawHUDAttack(self, (left, top), num):
+    def drawHUDAttack(self, xxx_todo_changeme, num):
+        (left, top) = xxx_todo_changeme
         coords = (left, top + (24*(num-1)))
         attackFont = pygame.font.SysFont('Arial', 24, True)
         attackText = "(%d) to Attack" % num
         attack = attackFont.render(attackText, 1, (0, 0, 0))
         self.display.blit(attack, coords)
 
-    def drawHUDCapture(self, (left, top), num):
+    def drawHUDCapture(self, xxx_todo_changeme1, num):
+        (left, top) = xxx_todo_changeme1
         coords = (left, top + (24*(num-1)))
         captureFont = pygame.font.SysFont('Arial', 24, True)
         captureText = "(%d) to Capture" % num
         capture = captureFont.render(captureText, 1, (0, 0, 0))
         self.display.blit(capture, coords)
 
-    def drawExitContextMenu(self, (left, top), num):
+    def drawExitContextMenu(self, xxx_todo_changeme2, num):
+        (left, top) = xxx_todo_changeme2
         coords = (left, top + (24*(num-1)))
         exitFont = pygame.font.SysFont('Arial', 24, True)
         exitText = "(x) to Undo Move"
@@ -1042,7 +1047,7 @@ class Battle(PygameBaseClass):
     def drawShop(self):
         left, top = 1048, 144
         textFont = pygame.font.SysFont('Arial', 24, True)
-        for option in xrange(6):
+        for option in range(6):
             key = option + 1
             text = '(%d) %s $%d' % (key, self.shopTypes[key].__name__,
                                       self.shopCosts[key])

@@ -4,6 +4,7 @@
 
 # Sprites from Advance Wars (Intelligent Systems, Nintendo)
 
+from __future__ import absolute_import
 import random
 import os
 import pygame

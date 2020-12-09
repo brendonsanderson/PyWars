@@ -4,6 +4,7 @@
 
 # Based on Advance Wars (Intelligent Systems, Nintendo)
 
+from __future__ import absolute_import
 import pygame
 from pygame.locals import *
 from pygameBaseClass import PygameBaseClass
@@ -11,6 +12,7 @@ from map import *
 from units import *
 from battle import *
 from mapEditor import *
+from six.moves import range
 
 class mainMenu(PygameBaseClass):
     def initGraphics(self):
@@ -223,7 +225,7 @@ class mainMenu(PygameBaseClass):
         buttonsTop = 256
         buttonHeight = 128
         padding = 16
-        for i in xrange(len(self.modes)):
+        for i in range(len(self.modes)):
             text = self.modes[i]
             isHighlighted = (i == self.selectionIndex)
             top = buttonsTop + (buttonHeight + padding) * i
@@ -238,7 +240,7 @@ class mainMenu(PygameBaseClass):
         font = pygame.font.SysFont('Arial', fontSize, True)
         text = font.render('Maps:', 1, (0, 0, 0))
         self.display.blit(text, (left + 32, top + 24))
-        for i in xrange(len(self.files)):
+        for i in range(len(self.files)):
             fileLeft = left + 32
             fileTop = top + 64 + (fontSize + padding) * i
             fileName = self.files[i]

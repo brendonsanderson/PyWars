@@ -4,10 +4,12 @@
 
 # Sprites from Advance Wars (Intelligent Systems, Nintendo)
 
+from __future__ import absolute_import
 import os
 import pygame
 from pygame.locals import *
 from pygameBaseClass import PygameBaseClass
+from six.moves import range
 
 class Tile(pygame.sprite.Sprite):
     """
@@ -226,8 +228,8 @@ class Map(pygame.sprite.Sprite):
 
     def getObjectives(self):
         objectives = []
-        for row in xrange(self.rows):
-            for col in xrange(self.cols):
+        for row in range(self.rows):
+            for col in range(self.cols):
                 tile = self.map[row][col]
                 if isinstance(tile, Objective):
                     objectives.append((row, col, tile))
@@ -238,16 +240,16 @@ class Map(pygame.sprite.Sprite):
         """Generates a blank map"""
         rows, cols = dimensions
         contents = []
-        for row in xrange(rows):
+        for row in range(rows):
             contents += [[Tile.defaultType] * cols]
         return contents
 
     def getMap(self, contents):
         """Translates the list of contents into a map"""
         map = []
-        for row in xrange(self.rows):
+        for row in range(self.rows):
             thisRow = []
-            for col in xrange(self.cols):
+            for col in range(self.cols):
                 terrainType = contents[row][col]
                 if type(terrainType) == int:
                     tile = Tile(terrainType,
@@ -259,8 +261,8 @@ class Map(pygame.sprite.Sprite):
         return map
 
     def deleteHQ(self, team):
-        for row in xrange(self.rows):
-            for col in xrange(self.cols):
+        for row in range(self.rows):
+            for col in range(self.cols):
                 tile = self.map[row][col]
                 if (isinstance(tile, Objective) and tile.typeNum == 0 and
                     tile.teamNum == team):
@@ -305,11 +307,11 @@ class Map(pygame.sprite.Sprite):
         each tile in the map"""
         defenseValues = []
         # create an empty, appropriately sized 2D list
-        for row in xrange(self.rows):
+        for row in range(self.rows):
             defenseValues += [[None] * self.cols]
         # populate the list with restrictions
-        for row in xrange(self.rows):
-            for col in xrange(self.cols):
+        for row in range(self.rows):
+            for col in range(self.cols):
                 tile = self.map[row][col]
                 defenseValues[row][col] = tile.defense
         return defenseValues
@@ -329,8 +331,8 @@ class Map(pygame.sprite.Sprite):
     def getImage(self):
         """Creates a surface with the appearance of the map"""
         image = pygame.Surface((self.width, self.height))
-        for row in xrange(self.rows):
-            for col in xrange(self.cols):
+        for row in range(self.rows):
+            for col in range(self.cols):
                 tile = self.map[row][col]
                 top = row * Tile.size - tile.overflow
                 left = col * Tile.size

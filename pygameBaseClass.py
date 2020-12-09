@@ -6,6 +6,7 @@
 # - Added EXIT condition to allow game to exit
 # - Created runAsChild method to allow for nested game objects (menu, game)
 
+from __future__ import absolute_import
 import pygame
 from pygame.locals import *
 

@@ -4,12 +4,14 @@
 
 # Based on Advance Wars (Intelligent Systems, Nintendo)
 
+from __future__ import absolute_import
 import pygame
 from pygame.locals import *
 from pygameBaseClass import PygameBaseClass
 from map import *
 from units import *
 from battle import *
+from six.moves import range
 
 class Editor(PygameBaseClass):
     modes = ['Terrain', 'Objective', 'Unit']
@@ -51,7 +53,7 @@ class Editor(PygameBaseClass):
     def getUnitSpace(self):
         """Create an empty 2D list the size of the map"""
         contents = []
-        for row in xrange(self.rows):
+        for row in range(self.rows):
             contents += [[None] * self.cols]
         return contents
 
@@ -102,7 +104,7 @@ class Editor(PygameBaseClass):
         if len(unitString) == 0: return []
         units = []
         unitIdentifiers = unitString.splitlines()
-        for i in xrange(len(unitIdentifiers)):
+        for i in range(len(unitIdentifiers)):
             thisUnitStr = unitIdentifiers[i]
             thisUnitList = thisUnitStr.split()
             team = int(thisUnitList[0])
@@ -260,9 +262,9 @@ class Editor(PygameBaseClass):
         mapStr = ''
         unitStr = ''
         numPlayers = 0
-        for row in xrange(self.rows):
+        for row in range(self.rows):
             if row != 0: mapStr += '\n'
-            for col in xrange(self.cols):
+            for col in range(self.cols):
                 tile = self.map.map[row][col]
                 unit = self.unitSpace[row][col]
                 if isinstance(tile, Objective):
@@ -288,8 +290,8 @@ class Editor(PygameBaseClass):
 
 
     def findOldHQ(self):
-        for row in xrange(self.rows):
-            for col in xrange(self.cols):
+        for row in range(self.rows):
+            for col in range(self.cols):
                 tile = self.map.map[row][col]
                 if (isinstance(tile, Objective) and tile.typeNum == 0 and
                     tile.teamNum == self.teamIndex):
@@ -427,7 +429,7 @@ class Editor(PygameBaseClass):
                 possible = self.objectives
         text = self.font.render('(r/f) Types:', 1, (0, 0, 0))
         self.display.blit(text, (left, top))
-        for i in xrange(len(possible)):
+        for i in range(len(possible)):
             typeName = possible[i]
             if i == self.typeIndex:
                 color = (0, 0, 255)
@@ -441,7 +443,7 @@ class Editor(PygameBaseClass):
         left, top = 1048, 576
         instructions = ['Move with', 'Arrow Keys', '(z) Edit Map',
                 '(x) Delete', '(space) Save']
-        for i in xrange(len(instructions)):
+        for i in range(len(instructions)):
             text = instructions[i]
             surface = self.font.render(text, 1, (0, 0, 0))
             self.display.blit(surface, (left, top + i * 32))
